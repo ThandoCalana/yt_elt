@@ -79,4 +79,4 @@ def get_video_ids(playlist_id): # extract a list of video IDs from the provided 
 # Only true if the script is run directly instead of as a module
 if __name__ == "__main__":
     playlist_id = get_playlist_id()
-    print(get_video_ids(playlist_id))
+    get_video_ids(playlist_id)
