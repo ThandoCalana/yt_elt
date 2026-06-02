@@ -1,7 +1,8 @@
 import requests
 import os
 from dotenv import load_dotenv
-# import json
+import json
+from datetime import date
 
 load_dotenv(dotenv_path="./.env")
 
@@ -119,11 +120,15 @@ def extract_video_details(video_ids):
 
     return extracted_details
             
+def save_file(extracted_data):
+    file_path = f"./data/YT_data_{date.today()}.json"
 
+    with open(file_path, "w", encoding='utf-8') as file:
+        json.dump(extracted_data, file, ensure_ascii=False, indent=4) # json.dump writes to a file, ensure ascii=false to ensure utf-8 encoding (allows for special chars)
 
-    
 # Only true if the script is run directly instead of as a module
 if __name__ == "__main__":
     playlist_id = get_playlist_id()
     video_ids = get_video_ids(playlist_id)
-    extract_video_details(video_ids)
+    extracted_data = extract_video_details(video_ids)
+    save_file(extracted_data)
