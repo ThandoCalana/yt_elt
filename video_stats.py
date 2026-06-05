@@ -8,7 +8,7 @@ load_dotenv(dotenv_path="./.env")
 
 # Store sensitive data in a .env file
 API_KEY = os.getenv("API_KEY")
-CHANNEL_HANDLE = 'MrBeast'
+CHANNEL_HANDLE = os.getenv("CHANNEL_HANDLE")
 MAX_RESULTS = 50
 
 # Enclose code you want to repeat in a function - Software dev best practices
@@ -88,7 +88,7 @@ def extract_video_details(video_ids):
 
     try:
         for batch in batch_videos(video_ids, MAX_RESULTS):
-            video_ids_str = ",".join(batch) # API takes a comma-separated list of video ids 
+            video_ids_str = ",".join(batch) # API URL takes a comma-separated list of video ids 
             url = f'https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={video_ids_str}&key={API_KEY}'
 
             response = requests.get(url)
