@@ -1,17 +1,19 @@
 import requests
-import os
-from dotenv import load_dotenv
 import json
 from datetime import date
 
-load_dotenv(dotenv_path="./.env")
+from airflow.models import Variable 
+from airflow.decorators import task
+
 
 # Store sensitive data in a .env file
-API_KEY = os.getenv("API_KEY")
-CHANNEL_HANDLE = os.getenv("CHANNEL_HANDLE")
+# For Airlfow, these are env variables, not 'runtime' variables
+API_KEY = Variable.get("API_KEY")
+CHANNEL_HANDLE = Variable.get("CHANNEL_HANDLE")
 MAX_RESULTS = 50
 
 # Enclose code you want to repeat in a function - Software dev best practices
+@task
 def get_playlist_id():
 
     # Use try-except block to ensure proper error handling - software dev best practice
@@ -39,7 +41,8 @@ def get_playlist_id():
 
     except requests.exceptions.RequestException as e:
         raise e
-    
+
+@task    
 def get_video_ids(playlist_id): # extract a list of video IDs from the provided playlist
 
     video_ids = []
@@ -76,7 +79,7 @@ def get_video_ids(playlist_id): # extract a list of video IDs from the provided 
     except requests.exceptions.RequestException as e:
         raise e
 
-
+@task
 def extract_video_details(video_ids):
     
     extracted_details = []
@@ -119,7 +122,8 @@ def extract_video_details(video_ids):
         raise e
 
     return extracted_details
-            
+
+@task            
 def save_file(extracted_data):
     file_path = f"./data/YT_data_{date.today()}.json"
 

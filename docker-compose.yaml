@@ -44,6 +44,7 @@
 #
 # Feel free to modify this file to suit your needs.
 ---
+# Refers to the variables that will be common across all Airflow containers
 x-airflow-common:
   &airflow-common
   # Use custom image that builds on top of default airflow image (currently; Default: apache/airflow:2.9.2)
