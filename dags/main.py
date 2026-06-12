@@ -5,7 +5,7 @@ from api.video_stats import get_playlist_id, get_video_ids, extract_video_detail
 
 local_tz = pendulum.timezone("Africa/Johannesburg")
 
-default_args = {
+default_args = { # Airflow-provided
     'owner': 'thandocalana',
     'depends_on_past': False,
     'start_date': datetime(2015, 6, 1, tzinfo=local_tz),
