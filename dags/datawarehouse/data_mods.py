@@ -11,23 +11,23 @@ def insert_rows(cur, conn, schema, row):
         if schema.lower() == 'staging':
             video_id = 'video_id'
 
-            cur.execute(f""""
+            cur.execute(f"""
                         
-                        INSERT INTO {schema}.{table} (video_id, video_title, duration, upload_date, like, comments, views)
-                        VALUES (%(video_id)s, %(video_title)s, %(duration)s, %(upload_date)s, %(like)s, %(comments)s, %(views)s);
+                        INSERT INTO {schema}.{table} (video_id, video_title, duration, upload_date, likes, comments, views)
+                        VALUES (%(video_id)s, %(title)s, %(duration)s, %(published_at)s, %(likes)s, %(comments)s, %(views)s);
                         """, row) # %(x)s notation allows us to look at that specific key within a dictionary
 
         else:
             video_id = 'video_id'
 
-            cur.execute(f""""
+            cur.execute(f"""
                         
                         INSERT INTO {schema}.{table} (video_id, video_title, duration, upload_date, likes, comments, views)
-                        VALUES (%(video_id)s, %(video_title)s, %(duration)s, %(upload_date)s, %(like)s, %(comments)s, %(views)s);
+                        VALUES (%(video_id)s, %(video_title)s, %(duration)s, %(upload_date)s, %(likes)s, %(comments)s, %(views)s);
                         """, row)
             
         conn.commit()
-        logger.info(f"All data loaded for ID: {row[video_id]}")
+        logger.info(f"All data inserted for ID: {row[video_id]}")
 
     except Exception as e:
         logger.info(f"Error inserting ID: {row['video_id']}")
@@ -56,7 +56,7 @@ def update_row(cur, conn, schema, row):
         raise e
 
 
-def delete_row(cur, conn, schema, ids_to_delete:list):
+def delete_rows(cur, conn, schema, ids_to_delete):
 
     ids = ','.join(id for id in ids_to_delete)
 

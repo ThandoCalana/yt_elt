@@ -5,9 +5,9 @@ table = "yt_api"
 
 def create_conn():
     hook = PostgresHook(postgres_conn_id = "postgres_db_yt_elt", # Using the Airflow env var defined in docker compose {{ AIRFLOW_CONN_POSTGRES_DB_YT_ELT }} 
-                        database = "elt_db") # ELT DB defined in .env file
+                        database = "elt_db") # ELT_DB defined in .env file
     conn = hook.get_conn()
-    cur = conn.cursor(cursfor_factory=RealDictCursor) # Return results as dict vs standard tuples
+    cur = conn.cursor(cursor_factory=RealDictCursor) # Return results as dict vs standard tuples
 
     return conn, cur
 
@@ -66,12 +66,12 @@ def create_table(schema):
     close_conn(conn, cur)
 
     
-    def get_video_ids(cur, schema):
+def get_video_ids(cur, schema): # Retrieves all video ids in table
 
-        video_sql = f" SELECT video_id FROM {schema}.{table}"
-        cur.execute(video_sql)
-        ids = cur.fetchall() 
+    video_sql = f" SELECT video_id FROM {schema}.{table}"
+    cur.execute(video_sql)
+    ids = cur.fetchall() 
 
-        video_ids = [row['video_id'] for row in ids]
+    video_ids = [row['video_id'] for row in ids]
 
-        return video_ids
+    return video_ids
